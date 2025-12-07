@@ -44,7 +44,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
     setState(() => _currentIndex = index);
 
     switch (index) {
-      case 0: break; // Already home
+      case 0: break;
       case 1: Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ChallengesScreen())); break;
       case 2: Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => WorkoutLogScreen())); break;
       case 3: Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => PhotoJournalScreen())); break;
