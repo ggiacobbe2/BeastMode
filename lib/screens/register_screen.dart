@@ -33,7 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (result == null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const HomeFeedScreen()),
+        MaterialPageRoute(builder: (_) => HomeFeedScreen()),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -79,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const LoginScreen()),
+                  MaterialPageRoute(builder: (_) => LoginScreen()),
                 );
               },
               child: const Text("Already have an account? Login"),
