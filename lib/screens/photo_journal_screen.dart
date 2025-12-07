@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
+import 'home_feed_screen.dart';
 import 'challenges_screen.dart';
 import 'workout_log_screen.dart';
-import 'photo_journal_screen.dart';
 import 'profile_screen.dart';
+import 'new_photo_entry.dart';
 
-class HomeFeedScreen extends StatefulWidget {
-  const HomeFeedScreen({super.key});
+class PhotoJournalScreen extends StatefulWidget {
+  const PhotoJournalScreen({super.key});
 
   @override
-  State<HomeFeedScreen> createState() => _HomeFeedScreenState();
+  State<PhotoJournalScreen> createState() => _PhotoJournalScreenState();
 }
 
-class _HomeFeedScreenState extends State<HomeFeedScreen> {
-  int _currentIndex = 0;
+class _PhotoJournalScreenState extends State<PhotoJournalScreen> {
+  int _currentIndex = 3;
 
   void _onTabTapped(int index) {
     if (index == _currentIndex) return;
-    setState(() => _currentIndex = index);
-
     switch (index) {
-      case 0: break; // Already home
+      case 0: Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeFeedScreen())); break;
       case 1: Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ChallengesScreen())); break;
       case 2: Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => WorkoutLogScreen())); break;
-      case 3: Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => PhotoJournalScreen())); break;
+      case 3: break;
       case 4: Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ProfileScreen())); break;
     }
   }
@@ -30,8 +29,14 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("BeastMode Feed")),
-      body: const Center(child: Text("Home Feed Content")),
+      appBar: AppBar(title: const Text("Photo Journal")),
+      body: const Center(child: Text("Photo journal content")),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => NewPhotoEntry()));
+        },
+        child: const Icon(Icons.add),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onTabTapped,
