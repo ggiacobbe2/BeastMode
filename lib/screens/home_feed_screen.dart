@@ -15,7 +15,9 @@ class HomeFeedScreen extends StatefulWidget {
 class _HomeFeedScreenState extends State<HomeFeedScreen> {
   int _currentIndex = 0;
 
-    final List<Map<String, dynamic>> tempPosts = [
+  final Set<int> likedPosts = {};
+
+  final List<Map<String, dynamic>> tempPosts = [
     {
       "author": "Erin",
       "caption": "First workout of the day!",
@@ -65,6 +67,8 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
         itemCount: sortedPosts.length,
         itemBuilder: (context, index) {
           final post = sortedPosts[index];
+          final isLiked = likedPosts.contains(index);
+
           return Container(
             margin: const EdgeInsets.only(bottom: 24),
             decoration: BoxDecoration(
@@ -78,49 +82,65 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
                 ),
               ],
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
               children: [
-                // Post Image
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(14),
-                    topRight: Radius.circular(14),
-                  ),
-                  child: Image.network(
-                    post["image"],
-                    height: 200,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+                // Main content
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(14),
+                        topRight: Radius.circular(14),
+                      ),
+                      child: Image.network(
+                        post["image"],
+                        height: 200,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            post["author"],
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(post["caption"]),
+                          const SizedBox(height: 8),
+                          Text(
+                            "${post["date"].month}/${post["date"].day}/${post["date"].year}",
+                            style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Author
-                      Text(
-                        post["author"],
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-
-                      const SizedBox(height: 6),
-
-                      // Caption
-                      Text(post["caption"]),
-
-                      const SizedBox(height: 8),
-
-                      // Date
-                      Text(
-                        "${post["date"].month}/${post["date"].day}/${post["date"].year}",
-                        style:
-                            TextStyle(color: Colors.grey.shade600, fontSize: 12),
-                      ),
-                    ],
+                // Like button overlayed in lower-right corner
+                Positioned(
+                  bottom: 8,
+                  right: 8,
+                  child: IconButton(
+                    icon: Icon(
+                      likedPosts.contains(index) ? Icons.favorite : Icons.favorite_border,
+                      color: likedPosts.contains(index) ? Colors.red : Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if (likedPosts.contains(index)) {
+                          likedPosts.remove(index);
+                        } else {
+                          likedPosts.add(index);
+                        }
+                      });
+                    },
                   ),
                 ),
               ],
