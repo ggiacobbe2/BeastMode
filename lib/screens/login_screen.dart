@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../services/auth_service.dart';
+import '/services/auth_service.dart';
 import 'register_screen.dart';
 import 'home_feed_screen.dart';
 
@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (result == null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const HomeFeedScreen()),
+        MaterialPageRoute(builder: (_) => HomeFeedScreen()),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const RegisterScreen()),
+                  MaterialPageRoute(builder: (_) => RegisterScreen()),
                 );
               },
               child: const Text("Don't have an account? Register"),

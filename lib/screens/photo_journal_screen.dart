@@ -1,64 +1,62 @@
 import 'package:flutter/material.dart';
+import 'home_feed_screen.dart';
 import 'challenges_screen.dart';
 import 'workout_log_screen.dart';
-import 'photo_journal_screen.dart';
 import 'profile_screen.dart';
-import 'new_post.dart';
+import 'new_photo_entry.dart';
 
-class HomeFeedScreen extends StatefulWidget {
-  const HomeFeedScreen({super.key});
+class PhotoJournalScreen extends StatefulWidget {
+  const PhotoJournalScreen({super.key});
 
   @override
-  State<HomeFeedScreen> createState() => _HomeFeedScreenState();
+  State<PhotoJournalScreen> createState() => _PhotoJournalScreenState();
 }
 
-class _HomeFeedScreenState extends State<HomeFeedScreen> {
-  int _currentIndex = 0;
+class _PhotoJournalScreenState extends State<PhotoJournalScreen> {
+  int _currentIndex = 3;
 
-    final List<Map<String, dynamic>> tempPosts = [
+    final List<Map<String, dynamic>> tempEntries = [
     {
-      "author": "Erin",
-      "caption": "First workout of the day!",
+      "title": "First Day Back",
+      "caption": "Excited to kick off the New Year right! My goal for the new year is to focus on strength and consistency. Let's do this!",
       "image":
-          "images/gym_woman_crunch.jpeg",
-      "date": DateTime(2025, 1, 10),
+          "images/gym_weights.jpeg",
+      "date": DateTime(2025, 1, 1),
     },
     {
-      "author": "Alex",
-      "caption": "My favorite zumba class.",
+      "title": "Leg Day",
+      "caption": "Today, I started with some dynamic stretches to warm up, followed by squats, lunges, and deadlifts. Finished with some calf raises and a good stretch. Feeling strong!",
       "image":
-          "images/zumba_class.jpeg",
-      "date": DateTime(2025, 1, 8),
+          "images/leg_press.jpeg",
+      "date": DateTime(2025, 1, 3),
     },
     {
-      "author": "Sam",
-      "caption": "5k run done!",
+      "title": "New Bench PR",
+      "caption": "Hit a new personal record on my bench press today! Pushed through some tough sets and finally nailed 150 for 5 reps. It's nice to celebrate the small wins!",
       "image":
-          "images/5k_run_medal.jpeg",
-      "date": DateTime(2025, 1, 5),
+          "images/bench_press.jpeg",
+      "date": DateTime(2025, 1, 4),
     },
   ];
 
   void _onTabTapped(int index) {
     if (index == _currentIndex) return;
-    setState(() => _currentIndex = index);
-
     switch (index) {
-      case 0: break;
+      case 0: Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeFeedScreen())); break;
       case 1: Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ChallengesScreen())); break;
       case 2: Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => WorkoutLogScreen())); break;
-      case 3: Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => PhotoJournalScreen())); break;
+      case 3: break;
       case 4: Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ProfileScreen())); break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final sortedPosts = List<Map<String, dynamic>>.from(tempPosts)
+    final sortedPosts = List<Map<String, dynamic>>.from(tempEntries)
       ..sort((a, b) => b['date'].compareTo(a['date']));
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Home Feed")),
+      appBar: AppBar(title: const Text("Photo Journal")),
 
       body: ListView.builder(
         padding: const EdgeInsets.all(10),
@@ -102,7 +100,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
                     children: [
                       // Author
                       Text(
-                        post["author"],
+                        post["title"],
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16),
                       ),
@@ -131,7 +129,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => NewPost()));
+          Navigator.push(context, MaterialPageRoute(builder: (_) => NewPhotoEntry()));
         },
         child: const Icon(Icons.add),
       ),
